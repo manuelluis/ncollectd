@@ -18,8 +18,9 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 18,
+  "id": 262,
   "links": [],
+  "liveNow": false,
   "panels": [
     {
       "datasource": {
@@ -126,15 +127,15 @@
     }
   ],
   "refresh": "",
-  "schemaVersion": 39,
+  "schemaVersion": 38,
   "tags": [],
   "templating": {
     "list": [
       {
         "current": {
           "selected": false,
-          "text": "prometheus",
-          "value": "edhq55gf59dz4b"
+          "text": "None",
+          "value": ""
         },
         "hide": 0,
         "includeAll": false,
@@ -151,7 +152,6 @@
       },
       {
         "current": {
-          "isNone": true,
           "selected": false,
           "text": "None",
           "value": ""
@@ -188,6 +188,6 @@
   "timezone": "browser",
   "title": "Cpufreq",
   "uid": "ddj3f3fqs8bggb",
-  "version": 6,
+  "version": 1,
   "weekStart": ""
 }

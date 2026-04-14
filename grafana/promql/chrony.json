@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 259,
+  "id": 297,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -30,41 +30,151 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "green",
+                  "index": 0,
+                  "text": "nomal"
+                },
+                "1": {
+                  "color": "purple",
+                  "index": 1,
+                  "text": "insert second"
+                },
+                "2": {
+                  "color": "orange",
+                  "index": 2,
+                  "text": "delete second"
+                },
+                "3": {
+                  "color": "red",
+                  "index": 3,
+                  "text": "not syncronized"
+                }
+              },
+              "type": "value"
+            },
+            {
+              "options": {
+                "match": "null+nan",
+                "result": {
+                  "index": 4,
+                  "text": "Unknow"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 0,
+        "y": 0
+      },
+      "id": 26,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.2.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "chrony_leap_status{hostname=\"${hostname}\",instance=\"${instance}\"}",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "leap status",
+          "range": false,
+          "refId": "B"
+        }
+      ],
+      "title": "Chrony status",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed"
           },
           "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
+            "fillOpacity": 70,
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
             "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
+            "lineWidth": 0,
+            "spanNulls": false
           },
-          "mappings": [],
+          "decimals": 0,
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "red",
+                  "index": 1,
+                  "text": "Down"
+                },
+                "1": {
+                  "color": "green",
+                  "index": 0,
+                  "text": "Up"
+                }
+              },
+              "type": "value"
+            },
+            {
+              "options": {
+                "match": "null+nan",
+                "result": {
+                  "color": "dark-red",
+                  "index": 2,
+                  "text": "Unknown"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "max": 1,
           "min": 0,
           "thresholds": {
             "mode": "absolute",
@@ -72,38 +182,31 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
-          },
-          "unit": "short"
+          }
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 10,
-        "w": 12,
-        "x": 0,
+        "h": 4,
+        "w": 21,
+        "x": 3,
         "y": 0
       },
-      "id": 14,
+      "id": 9,
       "options": {
+        "alignValue": "center",
         "legend": {
-          "calcs": [
-            "min",
-            "max",
-            "mean",
-            "lastNotNull"
-          ],
-          "displayMode": "table",
+          "displayMode": "list",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": false
         },
+        "mergeValues": true,
+        "rowHeight": 0.9,
+        "showValue": "always",
         "tooltip": {
-          "mode": "single",
+          "mode": "none",
           "sort": "none"
         }
       },
@@ -114,15 +217,16 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "mysql_threads_connected{hostname=\"${hostname}\",instance=\"${instance}\"}",
+          "expr": "chrony_up{hostname=\"${hostname}\",instance=\"${instance}\"} == bool 1",
+          "hide": false,
           "instant": false,
-          "legendFormat": "connections",
+          "legendFormat": " ",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "MySQL connections - ${hostname} - ${instance}",
-      "type": "timeseries"
+      "title": "Chrony Up/Down - ${hostname}",
+      "type": "state-timeline"
     },
     {
       "datasource": {
@@ -181,109 +285,7 @@
               }
             ]
           },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 12,
-        "x": 12,
-        "y": 0
-      },
-      "id": 4,
-      "options": {
-        "legend": {
-          "calcs": [
-            "min",
-            "max",
-            "mean",
-            "lastNotNull"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "irate(mysql_connections_total{hostname=\"${hostname}\",instance=\"${instance}\"}[$__rate_interval])",
-          "instant": false,
-          "legendFormat": "connections/s",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "MySQL connections/s - ${hostname} - ${instance}",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "short"
+          "unit": "s"
         },
         "overrides": []
       },
@@ -291,7 +293,7 @@
         "h": 10,
         "w": 12,
         "x": 0,
-        "y": 10
+        "y": 4
       },
       "id": 3,
       "options": {
@@ -318,14 +320,14 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "irate(mysql_questions_total{hostname=\"${hostname}\",instance=\"${instance}\"}[$__rate_interval])",
+          "expr": "chrony_clock_last_update_seconds{hostname=\"${hostname}\",instance=\"${instance}\"}",
           "instant": false,
-          "legendFormat": "questions/s",
+          "legendFormat": "last update",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "MySQL Questions/s  - ${hostname} - ${instance}",
+      "title": "Chrony last update - ${hostname} - ${instance}",
       "type": "timeseries"
     },
     {
@@ -385,7 +387,7 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "none"
         },
         "overrides": []
       },
@@ -393,644 +395,7 @@
         "h": 10,
         "w": 12,
         "x": 12,
-        "y": 10
-      },
-      "id": 5,
-      "options": {
-        "legend": {
-          "calcs": [
-            "min",
-            "max",
-            "mean",
-            "lastNotNull"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "mysql_threads_cached{hostname=\"${hostname}\",instance=\"${instance}\"}",
-          "instant": false,
-          "legendFormat": "cached",
-          "range": true,
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "mysql_threads_created{hostname=\"${hostname}\",instance=\"${instance}\"}",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "created",
-          "range": true,
-          "refId": "B"
-        }
-      ],
-      "title": "MySQL Thread Cache - ${hostname} - ${instance}",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 12,
-        "x": 0,
-        "y": 20
-      },
-      "id": 6,
-      "options": {
-        "legend": {
-          "calcs": [
-            "min",
-            "max",
-            "mean",
-            "lastNotNull"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "irate(mysql_created_tmp_tables_total{hostname=\"${hostname}\",instance=\"${instance}\"}[$__rate_interval])",
-          "instant": false,
-          "legendFormat": "create tmp tables/s",
-          "range": true,
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "irate(mysql_created_tmp_disk_tables_total{hostname=\"${hostname}\",instance=\"${instance}\"}[$__rate_interval])",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "create tmp disk tables/s",
-          "range": true,
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "irate(mysql_created_tmp_files_total{hostname=\"${hostname}\",instance=\"${instance}\"}[$__rate_interval])",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "create tmp files/s",
-          "range": true,
-          "refId": "C"
-        }
-      ],
-      "title": "MySQL Temporary Objects  - ${hostname} - ${instance}",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 12,
-        "x": 12,
-        "y": 20
-      },
-      "id": 7,
-      "options": {
-        "legend": {
-          "calcs": [
-            "min",
-            "max",
-            "mean",
-            "lastNotNull"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "irate(mysql_select_range_total{hostname=\"${hostname}\",instance=\"${instance}\"}[$__rate_interval])",
-          "instant": false,
-          "legendFormat": "select range/s",
-          "range": true,
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "irate(mysql_select_range_check_total{hostname=\"${hostname}\",instance=\"${instance}\"}[$__rate_interval])",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "select range check/s",
-          "range": true,
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "irate(mysql_select_scan_total{hostname=\"${hostname}\",instance=\"${instance}\"}[$__rate_interval])",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "select scan/s",
-          "range": true,
-          "refId": "C"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "irate(mysql_select_full_join_total{hostname=\"${hostname}\",instance=\"${instance}\"}[$__rate_interval])",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "select full join/s",
-          "range": true,
-          "refId": "D"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "irate(mysql_select_full_range_join_total{hostname=\"${hostname}\",instance=\"${instance}\"}[$__rate_interval])",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "select full range join/s",
-          "range": true,
-          "refId": "E"
-        }
-      ],
-      "title": "MySQL Select types  - ${hostname} - ${instance}",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 12,
-        "x": 0,
-        "y": 30
-      },
-      "id": 8,
-      "options": {
-        "legend": {
-          "calcs": [
-            "min",
-            "max",
-            "mean",
-            "lastNotNull"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "irate(mysql_sort_rows_total{hostname=\"${hostname}\",instance=\"${instance}\"}[$__rate_interval])",
-          "instant": false,
-          "legendFormat": "sort rows/s",
-          "range": true,
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "irate(mysql_sort_range_total{hostname=\"${hostname}\",instance=\"${instance}\"}[$__rate_interval])",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "sort range/s",
-          "range": true,
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "irate(mysql_sort_merge_passes_total{hostname=\"${hostname}\",instance=\"${instance}\"}[$__rate_interval])",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "sort merge passes/s",
-          "range": true,
-          "refId": "C"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "irate(mysql_sort_scan_total{hostname=\"${hostname}\",instance=\"${instance}\"}[$__rate_interval])",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "sort scan/s",
-          "range": true,
-          "refId": "D"
-        }
-      ],
-      "title": "MySQL Sorts  - ${hostname} - ${instance}",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 12,
-        "x": 12,
-        "y": 30
-      },
-      "id": 9,
-      "options": {
-        "legend": {
-          "calcs": [
-            "min",
-            "max",
-            "mean",
-            "lastNotNull"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "irate(mysql_slow_queries_total{hostname=\"${hostname}\",instance=\"${instance}\"}[$__rate_interval])",
-          "instant": false,
-          "legendFormat": "slow queries/s",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "MySQL Slow Queries  - ${hostname} - ${instance}",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 12,
-        "x": 0,
-        "y": 40
+        "y": 4
       },
       "id": 10,
       "options": {
@@ -1057,27 +422,14 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "irate(mysql_aborted_connects_total{hostname=\"${hostname}\",instance=\"${instance}\"}[$__rate_interval])",
+          "expr": "chrony_clock_stratum{hostname=\"${hostname}\",instance=\"${instance}\"}",
           "instant": false,
-          "legendFormat": "aborted connects (attempts)/s",
+          "legendFormat": "stratum",
           "range": true,
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "irate(mysql_aborted_clients_total{hostname=\"${hostname}\",instance=\"${instance}\"}[$__rate_interval])",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "aborted clients (timeout)/s",
-          "range": true,
-          "refId": "B"
         }
       ],
-      "title": "MySQL Aborted Connections - ${hostname} - ${instance}",
+      "title": "Chrony stratum - ${hostname} - ${instance}",
       "type": "timeseries"
     },
     {
@@ -1123,12 +475,12 @@
             }
           },
           "mappings": [],
-          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -1136,15 +488,15 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "ppm"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 10,
         "w": 12,
-        "x": 12,
-        "y": 40
+        "x": 0,
+        "y": 14
       },
       "id": 11,
       "options": {
@@ -1171,27 +523,115 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "irate(mysql_table_locks_immediate_total{hostname=\"${hostname}\",instance=\"${instance}\"}[$__rate_interval])",
+          "expr": "chrony_clock_skew_ppm{hostname=\"${hostname}\",instance=\"${instance}\"}",
           "instant": false,
-          "legendFormat": "table locks immediate",
+          "legendFormat": "skew",
           "range": true,
           "refId": "A"
+        }
+      ],
+      "title": "Chrony clock skew - ${hostname} - ${instance}",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "ppm"
         },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 14
+      },
+      "id": 13,
+      "options": {
+        "legend": {
+          "calcs": [
+            "min",
+            "max",
+            "mean",
+            "lastNotNull"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "irate(mysql_table_locks_waited_total{hostname=\"${hostname}\",instance=\"${instance}\"}[$__rate_interval])",
-          "hide": false,
+          "expr": "chrony_frequency_error_ppm{hostname=\"${hostname}\",instance=\"${instance}\"}",
           "instant": false,
-          "legendFormat": "table locks waited",
+          "legendFormat": "frequency error",
           "range": true,
-          "refId": "B"
+          "refId": "A"
         }
       ],
-      "title": "MySQL Table Locks - ${hostname} - ${instance}",
+      "title": "Chrony frequency error - ${hostname} - ${instance}",
       "type": "timeseries"
     },
     {
@@ -1250,7 +690,7 @@
               }
             ]
           },
-          "unit": "binBps"
+          "unit": "s"
         },
         "overrides": []
       },
@@ -1258,7 +698,207 @@
         "h": 10,
         "w": 12,
         "x": 0,
-        "y": 50
+        "y": 24
+      },
+      "id": 14,
+      "options": {
+        "legend": {
+          "calcs": [
+            "min",
+            "max",
+            "mean",
+            "lastNotNull"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "chrony_root_delay_seconds{hostname=\"${hostname}\",instance=\"${instance}\"}",
+          "instant": false,
+          "legendFormat": "root delay",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Chrony root delay - ${hostname} - ${instance}",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 24
+      },
+      "id": 15,
+      "options": {
+        "legend": {
+          "calcs": [
+            "min",
+            "max",
+            "mean",
+            "lastNotNull"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "chrony_root_dispersion_seconds{hostname=\"${hostname}\",instance=\"${instance}\"}",
+          "instant": false,
+          "legendFormat": "root dispersion",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Chrony root dispersion - ${hostname} - ${instance}",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 0,
+        "y": 34
       },
       "id": 12,
       "options": {
@@ -1285,9 +925,9 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "irate(mysql_received_bytes_total{hostname=\"${hostname}\",instance=\"${instance}\"}[$__rate_interval])",
+          "expr": "chrony_time_offset_seconds{hostname=\"${hostname}\",instance=\"${instance}\"}",
           "instant": false,
-          "legendFormat": "received",
+          "legendFormat": "offset estimated",
           "range": true,
           "refId": "A"
         },
@@ -1297,15 +937,28 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "irate(mysql_sent_bytes_total{hostname=\"${hostname}\",instance=\"${instance}\"}[$__rate_interval])",
+          "expr": "chrony_time_offset_rms_seconds{hostname=\"${hostname}\",instance=\"${instance}\"}",
           "hide": false,
           "instant": false,
-          "legendFormat": "sent",
+          "legendFormat": "offset rms",
           "range": true,
           "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "chrony_time_offset_ntp_seconds{hostname=\"${hostname}\",instance=\"${instance}\"}",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "offset ntp",
+          "range": true,
+          "refId": "C"
         }
       ],
-      "title": "MySQL Network Traffic  - ${hostname} - ${instance}",
+      "title": "Chrony time offset - ${hostname} - ${instance}",
       "type": "timeseries"
     },
     {
@@ -1364,7 +1017,7 @@
               }
             ]
           },
-          "unit": "binBps"
+          "unit": "none"
         },
         "overrides": []
       },
@@ -1372,9 +1025,9 @@
         "h": 10,
         "w": 12,
         "x": 12,
-        "y": 50
+        "y": 34
       },
-      "id": 13,
+      "id": 16,
       "options": {
         "legend": {
           "calcs": [
@@ -1398,13 +1051,16 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "",
+          "editorMode": "code",
+          "expr": "changes(chrony_time_ref_seconds{hostname=\"${hostname}\",instance=\"${instance}\"}[$__rate_interval])",
+          "hide": false,
           "instant": false,
+          "legendFormat": "updates",
           "range": true,
-          "refId": "A"
+          "refId": "B"
         }
       ],
-      "title": "MySQL Internal Memory  - ${hostname} - ${instance}",
+      "title": "Chrony  updates - ${hostname} - ${instance}",
       "type": "timeseries"
     },
     {
@@ -1415,55 +1071,65 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "mode": "fixed"
           },
           "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
+            "fillOpacity": 70,
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
             "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
+            "lineWidth": 0,
+            "spanNulls": true
           },
-          "mappings": [],
-          "min": 0,
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "green",
+                  "index": 0,
+                  "text": "nomal"
+                },
+                "1": {
+                  "color": "purple",
+                  "index": 1,
+                  "text": "insert second"
+                },
+                "2": {
+                  "color": "orange",
+                  "index": 2,
+                  "text": "delete second"
+                },
+                "3": {
+                  "color": "red",
+                  "index": 3,
+                  "text": "not syncronized"
+                }
+              },
+              "type": "value"
+            },
+            {
+              "options": {
+                "match": "null+nan",
+                "result": {
+                  "index": 4,
+                  "text": "Unknow"
+                }
+              },
+              "type": "special"
+            }
+          ],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
+                "color": "red"
               }
             ]
           },
-          "unit": "short"
+          "unit": "none"
         },
         "overrides": []
       },
@@ -1471,23 +1137,19 @@
         "h": 10,
         "w": 12,
         "x": 0,
-        "y": 60
+        "y": 44
       },
-      "id": 2,
+      "id": 17,
       "options": {
+        "alignValue": "center",
         "legend": {
-          "calcs": [
-            "min",
-            "max",
-            "mean",
-            "lastNotNull"
-          ],
-          "displayMode": "table",
+          "displayMode": "list",
           "placement": "bottom",
-          "showLegend": true,
-          "sortBy": "Last *",
-          "sortDesc": true
+          "showLegend": true
         },
+        "mergeValues": true,
+        "rowHeight": 0.9,
+        "showValue": "always",
         "tooltip": {
           "mode": "single",
           "sort": "none"
@@ -1500,118 +1162,29 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "irate(mysql_commands_total{hostname=\"${hostname}\",instance=\"${instance}\"}[$__rate_interval])",
+          "expr": "chrony_leap_status{hostname=\"${hostname}\",instance=\"${instance}\"}",
+          "hide": false,
           "instant": false,
-          "legendFormat": "{{command}}/s",
+          "legendFormat": " ",
           "range": true,
-          "refId": "A"
+          "refId": "B"
         }
       ],
-      "title": "MySQL Commands - ${hostname} - ${instance}",
-      "type": "timeseries"
+      "title": "Chrony  leap status - ${hostname} - ${instance}",
+      "type": "state-timeline"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
+      "collapsed": false,
       "gridPos": {
-        "h": 10,
-        "w": 12,
-        "x": 12,
-        "y": 60
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 54
       },
-      "id": 16,
-      "options": {
-        "legend": {
-          "calcs": [
-            "min",
-            "max",
-            "mean",
-            "lastNotNull"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true,
-          "sortBy": "Last *",
-          "sortDesc": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "irate(mysql_handlers_total{hostname=\"${hostname}\",instance=\"${instance}\",handler!~\"commit|rollback|savepoint.*|prepare\"}[$__rate_interval])",
-          "instant": false,
-          "legendFormat": "{{handler}}/s",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "MySQL Handlers - ${hostname} - ${instance}",
-      "type": "timeseries"
+      "id": 25,
+      "panels": [],
+      "title": "Sources",
+      "type": "row"
     },
     {
       "datasource": {
@@ -1656,7 +1229,6 @@
             }
           },
           "mappings": [],
-          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -1669,7 +1241,7 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "s"
         },
         "overrides": []
       },
@@ -1677,110 +1249,7 @@
         "h": 10,
         "w": 12,
         "x": 0,
-        "y": 70
-      },
-      "id": 15,
-      "options": {
-        "legend": {
-          "calcs": [
-            "min",
-            "max",
-            "mean",
-            "lastNotNull"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true,
-          "sortBy": "Last *",
-          "sortDesc": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "irate(mysql_handlers_total{hostname=\"${hostname}\",instance=\"${instance}\",handler=~\"commit|rollback|savepoint.*|prepare\"}[$__rate_interval])",
-          "instant": false,
-          "legendFormat": "{{handler}}/s",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "MySQL Transaction Handlers - ${hostname} - ${instance}",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 12,
-        "x": 12,
-        "y": 70
+        "y": 55
       },
       "id": 19,
       "options": {
@@ -1807,14 +1276,14 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "mysql_qcache_queries_in_cache{hostname=\"${hostname}\",instance=\"${instance}\"}",
+          "expr": "chrony_source_clock_last_measurement_seconds{hostname=\"${hostname}\",instance=\"${instance}\"}",
           "instant": false,
-          "legendFormat": "queries in cache",
+          "legendFormat": "{{source}}",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "MySQL Queries in cache - ${hostname} - ${instance}",
+      "title": "Chrony source clock last measurement - ${hostname} - ${instance}",
       "type": "timeseries"
     },
     {
@@ -1825,195 +1294,61 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "mode": "fixed"
           },
           "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
+            "fillOpacity": 70,
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
             "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
+            "lineWidth": 0,
+            "spanNulls": true
           },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "green",
+                  "index": 0,
+                  "text": "server"
+                },
+                "1": {
+                  "color": "purple",
+                  "index": 1,
+                  "text": "peer"
+                },
+                "2": {
+                  "color": "orange",
+                  "index": 2,
+                  "text": "local"
+                }
               },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 12,
-        "x": 0,
-        "y": 80
-      },
-      "id": 18,
-      "options": {
-        "legend": {
-          "calcs": [
-            "min",
-            "max",
-            "mean",
-            "lastNotNull"
+              "type": "value"
+            },
+            {
+              "options": {
+                "match": "null+nan",
+                "result": {
+                  "color": "red",
+                  "index": 3,
+                  "text": "Unknown"
+                }
+              },
+              "type": "special"
+            }
           ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "irate(mysql_qcache_hits_total{hostname=\"${hostname}\",instance=\"${instance}\"}[$__rate_interval])",
-          "instant": false,
-          "legendFormat": "hits/s",
-          "range": true,
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "irate(mysql_qcache_inserts_total{hostname=\"${hostname}\",instance=\"${instance}\"}[$__rate_interval])",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "inserts/s",
-          "range": true,
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "irate(mysql_qcache_not_cached_total{hostname=\"${hostname}\",instance=\"${instance}\"}[$__rate_interval])",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "not cached/s",
-          "range": true,
-          "refId": "C"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "irate(mysql_qcache_lowmem_prunes_total{hostname=\"${hostname}\",instance=\"${instance}\"}[$__rate_interval])",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "prunes/s",
-          "range": true,
-          "refId": "D"
-        }
-      ],
-      "title": "MySQL Query Cache Activity - ${hostname} - ${instance}",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
+                "color": "red"
               }
             ]
           },
-          "unit": "short"
+          "unit": "none"
         },
         "overrides": []
       },
@@ -2021,122 +1356,19 @@
         "h": 10,
         "w": 12,
         "x": 12,
-        "y": 80
-      },
-      "id": 21,
-      "options": {
-        "legend": {
-          "calcs": [
-            "min",
-            "max",
-            "mean",
-            "lastNotNull"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "irate(mysql_opened_files_total{hostname=\"${hostname}\",instance=\"${instance}\"}[$__rate_interval])",
-          "instant": false,
-          "legendFormat": "openings",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "MySQL File Openings - ${hostname} - ${instance}",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "bytes"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 12,
-        "x": 0,
-        "y": 90
+        "y": 55
       },
       "id": 20,
       "options": {
+        "alignValue": "center",
         "legend": {
-          "calcs": [
-            "min",
-            "max",
-            "mean",
-            "lastNotNull"
-          ],
-          "displayMode": "table",
+          "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
         },
+        "mergeValues": true,
+        "rowHeight": 0.9,
+        "showValue": "always",
         "tooltip": {
           "mode": "single",
           "sort": "none"
@@ -2149,15 +1381,16 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "mysql_qcache_free_bytes{hostname=\"${hostname}\",instance=\"${instance}\"}",
+          "expr": "chrony_source_clock_mode{hostname=\"${hostname}\",instance=\"${instance}\"}",
+          "hide": false,
           "instant": false,
-          "legendFormat": "free",
+          "legendFormat": "{{source}}",
           "range": true,
-          "refId": "A"
+          "refId": "B"
         }
       ],
-      "title": "MySQL Queries Memory - ${hostname} - ${instance}",
-      "type": "timeseries"
+      "title": "Chrony  source clock mode - ${hostname} - ${instance}",
+      "type": "state-timeline"
     },
     {
       "datasource": {
@@ -2167,156 +1400,76 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "mode": "fixed"
           },
           "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
+            "fillOpacity": 70,
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
             "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
+            "lineWidth": 0,
+            "spanNulls": true
           },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "green",
+                  "index": 0,
+                  "text": "synchronizer"
+                },
+                "1": {
+                  "color": "orange",
+                  "index": 1,
+                  "text": "connectivity lost"
+                },
+                "2": {
+                  "color": "dark-red",
+                  "index": 2,
+                  "text": "false ticker"
+                },
+                "3": {
+                  "color": "super-light-red",
+                  "index": 3,
+                  "text": "too much variability"
+                },
+                "4": {
+                  "color": "super-light-green",
+                  "index": 4,
+                  "text": "combined"
+                },
+                "5": {
+                  "color": "yellow",
+                  "index": 5,
+                  "text": "excluded"
+                }
               },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 12,
-        "x": 12,
-        "y": 90
-      },
-      "id": 22,
-      "options": {
-        "legend": {
-          "calcs": [
-            "min",
-            "max",
-            "mean",
-            "lastNotNull"
+              "type": "value"
+            },
+            {
+              "options": {
+                "match": "null+nan",
+                "result": {
+                  "color": "red",
+                  "index": 6,
+                  "text": "Unknown"
+                }
+              },
+              "type": "special"
+            }
           ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "mysql_open_tables{hostname=\"${hostname}\",instance=\"${instance}\"}",
-          "instant": false,
-          "legendFormat": "open tables",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "MySQL Open Tables - ${hostname} - ${instance}",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
+                "color": "red"
               }
             ]
           },
-          "unit": "short"
+          "unit": "none"
         },
         "overrides": []
       },
@@ -2324,7 +1477,196 @@
         "h": 10,
         "w": 12,
         "x": 0,
-        "y": 100
+        "y": 65
+      },
+      "id": 21,
+      "options": {
+        "alignValue": "center",
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "mergeValues": true,
+        "rowHeight": 0.9,
+        "showValue": "always",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "chrony_source_clock_state{hostname=\"${hostname}\",instance=\"${instance}\"}",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{source}}",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Chrony  source clock state - ${hostname} - ${instance}",
+      "type": "state-timeline"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed"
+          },
+          "custom": {
+            "fillOpacity": 70,
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineWidth": 0,
+            "spanNulls": false
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "red",
+                  "index": 1,
+                  "text": "Fail"
+                },
+                "1": {
+                  "color": "green",
+                  "index": 0,
+                  "text": "Ok"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 65
+      },
+      "id": 22,
+      "options": {
+        "alignValue": "center",
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "mergeValues": true,
+        "rowHeight": 0.9,
+        "showValue": "always",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "chrony_source_clock_reachability{hostname=\"${hostname}\",instance=\"${instance}\"} == bool  255",
+          "instant": false,
+          "legendFormat": "{{source}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Chrony source clock reachability - ${hostname} - ${instance}",
+      "type": "state-timeline"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "ppm"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 0,
+        "y": 75
       },
       "id": 23,
       "options": {
@@ -2351,14 +1693,14 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "mysql_open_table_definitions{hostname=\"${hostname}\",instance=\"${instance}\"}",
+          "expr": "chrony_source_frequency_error_ppm{hostname=\"${hostname}\",instance=\"${instance}\"}",
           "instant": false,
-          "legendFormat": "open table definitios",
+          "legendFormat": "{{source}}",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "MySQL Open Table Definition - ${hostname} - ${instance}",
+      "title": "Chrony source frecuency error - ${hostname} - ${instance}",
       "type": "timeseries"
     },
     {
@@ -2417,7 +1759,7 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "none"
         },
         "overrides": []
       },
@@ -2425,7 +1767,107 @@
         "h": 10,
         "w": 12,
         "x": 12,
-        "y": 100
+        "y": 75
+      },
+      "id": 18,
+      "options": {
+        "legend": {
+          "calcs": [
+            "min",
+            "max",
+            "mean",
+            "lastNotNull"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "chrony_source_clock_stratum{hostname=\"${hostname}\",instance=\"${instance}\"}",
+          "instant": false,
+          "legendFormat": "{{source}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Chrony source stratum - ${hostname} - ${instance}",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 0,
+        "y": 85
       },
       "id": 24,
       "options": {
@@ -2452,14 +1894,14 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "irate(mysql_opened_table_definitions_total{hostname=\"${hostname}\",instance=\"${instance}\"}[$__rate_interval])",
+          "expr": "chrony_source_time_offset_seconds{hostname=\"${hostname}\",instance=\"${instance}\"}",
           "instant": false,
-          "legendFormat": "opened table definitions/s",
+          "legendFormat": "{{source}}",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "MySQL Opened Table Definition - ${hostname} - ${instance}",
+      "title": "Chrony source time offset - ${hostname} - ${instance}",
       "type": "timeseries"
     }
   ],
@@ -2489,7 +1931,6 @@
       },
       {
         "current": {
-          "isNone": true,
           "selected": false,
           "text": "None",
           "value": ""
@@ -2498,7 +1939,7 @@
           "type": "prometheus",
           "uid": "${datasource}"
         },
-        "definition": "label_values(mysql_up,hostname)",
+        "definition": "label_values(chrony_up,hostname)",
         "hide": 0,
         "includeAll": false,
         "label": "Hostname",
@@ -2507,7 +1948,7 @@
         "options": [],
         "query": {
           "qryType": 1,
-          "query": "label_values(mysql_up,hostname)",
+          "query": "label_values(chrony_up,hostname)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,
@@ -2518,16 +1959,15 @@
       },
       {
         "current": {
-          "isNone": true,
           "selected": false,
-          "text": "None",
-          "value": ""
+          "text": "local",
+          "value": "local"
         },
         "datasource": {
           "type": "prometheus",
           "uid": "${datasource}"
         },
-        "definition": "label_values(mysql_up{hostname=\"$hostname\"},instance)",
+        "definition": "label_values(chrony_up{hostname=\"$hostname\"},instance)",
         "hide": 0,
         "includeAll": false,
         "label": "Instance",
@@ -2536,7 +1976,7 @@
         "options": [],
         "query": {
           "qryType": 1,
-          "query": "label_values(mysql_up{hostname=\"$hostname\"},instance)",
+          "query": "label_values(chrony_up{hostname=\"$hostname\"},instance)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,
@@ -2553,8 +1993,8 @@
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "MySQL",
-  "uid": "fdit5hi8momwwa",
-  "version": 2,
+  "title": "Chrony",
+  "uid": "da846ee7-5c21-48e4-975d-98d708224b8c",
+  "version": 13,
   "weekStart": ""
 }

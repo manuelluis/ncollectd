@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 260,
+  "id": 290,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -30,176 +30,97 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "fixedColor": "semi-dark-green",
             "mode": "fixed"
           },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "s"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 3,
-        "x": 0,
-        "y": 0
-      },
-      "id": 7,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "10.2.2",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "apache_uptime_seconds{hostname=\"${hostname}\",instance=\"${instance}\"}",
-          "instant": true,
-          "legendFormat": "__auto",
-          "range": false,
-          "refId": "A"
-        }
-      ],
-      "title": "Apache Uptime",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
           "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 100,
-            "gradientMode": "none",
+            "fillOpacity": 70,
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
             "insertNulls": false,
-            "lineInterpolation": "stepBefore",
-            "lineWidth": 1,
-            "pointSize": 1,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
+            "lineWidth": 0,
+            "spanNulls": false
           },
-          "decimals": 0,
-          "mappings": [],
-          "max": 1,
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "color": "red",
+                  "index": 0,
+                  "text": "DOWN"
+                },
+                "2": {
+                  "color": "green",
+                  "index": 1,
+                  "text": "UP"
+                },
+                "3": {
+                  "color": "blue",
+                  "index": 2,
+                  "text": "MAINT"
+                },
+                "4": {
+                  "color": "orange",
+                  "index": 3,
+                  "text": "DRAIN"
+                },
+                "5": {
+                  "color": "yellow",
+                  "index": 4,
+                  "text": "NOLB"
+                },
+                "6": {
+                  "color": "purple",
+                  "index": 5,
+                  "text": "NO CHECK"
+                }
+              },
+              "type": "value"
+            },
+            {
+              "options": {
+                "match": "null+nan",
+                "result": {
+                  "color": "red",
+                  "index": 6,
+                  "text": "UNKNOWN"
+                }
+              },
+              "type": "special"
+            }
+          ],
           "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "purple",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           }
         },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "up"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "semi-dark-green",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "down"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "semi-dark-red",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          }
-        ]
+        "overrides": []
       },
       "gridPos": {
         "h": 4,
-        "w": 21,
-        "x": 3,
+        "w": 24,
+        "x": 0,
         "y": 0
       },
-      "id": 9,
+      "id": 13,
       "options": {
+        "alignValue": "center",
         "legend": {
-          "calcs": [],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": false
         },
+        "mergeValues": true,
+        "rowHeight": 0.9,
+        "showValue": "auto",
         "tooltip": {
           "mode": "single",
           "sort": "none"
@@ -212,29 +133,17 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "apache_up{hostname=\"${hostname}\",instance=\"${instance}\"}",
-          "hide": false,
+          "expr": "(MIN without (haproxy_server_status)(haproxy_server_status{hostname=\"${hostname}\",instance=\"${instance}\",proxy=\"${proxy}\",server=\"${server}\",haproxy_server_status=\"DOWN\"}) * 1) + (MIN without (haproxy_server_status)(haproxy_server_status{hostname=\"${hostname}\",instance=\"${instance}\",proxy=\"${proxy}\",server=\"${server}\",haproxy_server_status=\"UP\"}) * 2) + (MIN without (haproxy_server_status)(haproxy_server_status{hostname=\"${hostname}\",instance=\"${instance}\",proxy=\"${proxy}\",server=\"${server}\",haproxy_server_status=\"MAINT\"}) * 3) + (MIN without (haproxy_server_status)(haproxy_server_status{hostname=\"${hostname}\",instance=\"${instance}\",proxy=\"${proxy}\",server=\"${server}\",haproxy_server_status=\"DRAIN\"}) * 4) + (MIN without (haproxy_server_status)(haproxy_server_status{hostname=\"${hostname}\",instance=\"${instance}\",proxy=\"${proxy}\",server=\"${server}\",haproxy_server_status=\"NOLB\"}) * 5) + (MIN without (haproxy_server_status)(haproxy_server_status{hostname=\"${hostname}\",instance=\"${instance}\",proxy=\"${proxy}\",server=\"${server}\",haproxy_server_status=\"no check\"}) * 6)",
+          "format": "time_series",
           "instant": false,
-          "legendFormat": "up",
+          "legendFormat": "Status",
           "range": true,
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "apache_up{hostname=\"${hostname}\",instance=\"${instance}\"} == bool 0",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "down",
-          "range": true,
-          "refId": "B"
         }
       ],
-      "title": "Apache Up/Down",
-      "type": "timeseries"
+      "title": "HAproxy  Server Status - ${hostname} - ${instance} - ${proxy} - ${server}",
+      "transformations": [],
+      "type": "state-timeline"
     },
     {
       "datasource": {
@@ -292,7 +201,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "none"
         },
         "overrides": []
       },
@@ -301,209 +211,6 @@
         "w": 12,
         "x": 0,
         "y": 4
-      },
-      "id": 3,
-      "options": {
-        "legend": {
-          "calcs": [
-            "min",
-            "max",
-            "mean",
-            "lastNotNull"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "irate(apache_requests_total{hostname=\"${hostname}\",instance=\"${instance}\"}[$__rate_interval])",
-          "instant": false,
-          "legendFormat": "request/s",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Apache requests/s - ${hostname} - ${instance}",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 12,
-        "x": 12,
-        "y": 4
-      },
-      "id": 2,
-      "options": {
-        "legend": {
-          "calcs": [
-            "min",
-            "max",
-            "mean",
-            "lastNotNull"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "apache_connections{hostname=\"${hostname}\",instance=\"${instance}\"}",
-          "instant": false,
-          "legendFormat": "{{state}}",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Apache connections - ${hostname} - ${instance}",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "binBps"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 12,
-        "x": 0,
-        "y": 14
       },
       "id": 1,
       "options": {
@@ -530,14 +237,227 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "irate(apache_bytes_total{hostname=\"${hostname}\",instance=\"${instance}\"}[$__rate_interval])",
+          "expr": "haproxy_server_current_queue{hostname=\"${hostname}\",instance=\"${instance}\",proxy=\"${proxy}\",server=\"${server}\"}",
           "instant": false,
-          "legendFormat": "bytes/s",
+          "legendFormat": "queue",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Apache bytes/s - ${hostname} - ${instance}",
+      "title": "HAproxy Server Queue - ${hostname} - ${instance} - ${proxy} - ${server}",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 4
+      },
+      "id": 10,
+      "options": {
+        "legend": {
+          "calcs": [
+            "min",
+            "max",
+            "mean",
+            "lastNotNull"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "haproxy_server_current_sessions{hostname=\"${hostname}\",instance=\"${instance}\",proxy=\"${proxy}\",server=\"${server}\"}",
+          "instant": false,
+          "legendFormat": "sessions",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "HAproxy Server Current Sessions - ${hostname} - ${instance} - ${proxy} - ${server}",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "binBps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 0,
+        "y": 14
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "calcs": [
+            "min",
+            "max",
+            "mean",
+            "lastNotNull"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "irate(haproxy_server_bytes_in_total{hostname=\"${hostname}\",instance=\"${instance}\",proxy=\"${proxy}\",server=\"${server}\"}[$__rate_interval])",
+          "instant": false,
+          "legendFormat": "In",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "irate(haproxy_server_bytes_out_total{hostname=\"${hostname}\",instance=\"${instance}\",proxy=\"${proxy}\",server=\"${server}\"}[$__rate_interval])",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "Out",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "HAproxy Server In/Out Bytes - ${hostname} - ${instance} - ${proxy} - ${server}",
       "type": "timeseries"
     },
     {
@@ -631,14 +551,14 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "apache_workers{hostname=\"${hostname}\",instance=\"${instance}\"}",
+          "expr": "irate(haproxy_server_http_responses_total{hostname=\"${hostname}\",instance=\"${instance}\",proxy=\"${proxy}\",server=\"${server}\"}[$__rate_interval])",
           "instant": false,
-          "legendFormat": "{{state}}",
+          "legendFormat": "{{code}}",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Apache Workers - ${hostname} - ${instance}",
+      "title": "HAproxy Server responses/s - ${hostname} - ${instance} - ${proxy} - ${server}",
       "type": "timeseries"
     },
     {
@@ -731,14 +651,27 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "apache_scoreboard{hostname=\"${hostname}\",instance=\"${instance}\"}",
+          "expr": "irate(haproxy_server_ssl_sessions_total{hostname=\"${hostname}\",instance=\"${instance}\",proxy=\"${proxy}\",server=\"${server}\"}[$__rate_interval])",
           "instant": false,
-          "legendFormat": "{{state}}",
+          "legendFormat": "ssl sessions/s",
           "range": true,
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "irate(haproxy_server_ssl_reused_sessions_total{hostname=\"${hostname}\",instance=\"${instance}\",proxy=\"${proxy}\",server=\"${server}\"}[$__rate_interval])",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "ssl reuse sessions/s",
+          "range": true,
+          "refId": "B"
         }
       ],
-      "title": "Apache Scoreboard - ${hostname} - ${instance}",
+      "title": "HAProxy Server SSL Sessions/s - ${hostname} - ${instance} - ${proxy} - ${server}",
       "type": "timeseries"
     },
     {
@@ -801,7 +734,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 9,
+        "h": 11,
         "w": 12,
         "x": 12,
         "y": 24
@@ -831,14 +764,140 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "apache_processes{hostname=\"${hostname}\",instance=\"${instance}\"}",
+          "expr": "irate(haproxy_server_ssl_failed_handshake_total{hostname=\"${hostname}\",instance=\"${instance}\",proxy=\"${proxy}\",server=\"${server}\"}[$__rate_interval])",
           "instant": false,
-          "legendFormat": "processes",
+          "legendFormat": "Failed handshake/s",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Apache processes - ${hostname} - ${instance}",
+      "title": "HAproxy  Server SSL Handshake/s - ${hostname} - ${instance} - ${proxy} - ${server}",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 12,
+        "x": 0,
+        "y": 35
+      },
+      "id": 11,
+      "options": {
+        "legend": {
+          "calcs": [
+            "min",
+            "max",
+            "mean",
+            "lastNotNull"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "irate(haproxy_server_connection_errors_total{hostname=\"${hostname}\",instance=\"${instance}\",proxy=\"${proxy}\",server=\"${server}\"}[$__rate_interval])",
+          "instant": false,
+          "legendFormat": "errors/s",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "irate(haproxy_server_connection_attempts_total{hostname=\"${hostname}\",instance=\"${instance}\",proxy=\"${proxy}\",server=\"${server}\"}[$__rate_interval])",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "attempts/s",
+          "range": true,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "irate(haproxy_server_connection_reuses_total{hostname=\"${hostname}\",instance=\"${instance}\",proxy=\"${proxy}\",server=\"${server}\"}[$__rate_interval])",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "reuses/s",
+          "range": true,
+          "refId": "C"
+        }
+      ],
+      "title": "HAProxy Server connections/s - ${hostname} - ${instance} - ${proxy} - ${server}",
       "type": "timeseries"
     }
   ],
@@ -868,7 +927,6 @@
       },
       {
         "current": {
-          "isNone": true,
           "selected": false,
           "text": "None",
           "value": ""
@@ -877,7 +935,7 @@
           "type": "prometheus",
           "uid": "${datasource}"
         },
-        "definition": "label_values(apache_up,hostname)",
+        "definition": "label_values(haproxy_up,hostname)",
         "hide": 0,
         "includeAll": false,
         "label": "Hostname",
@@ -886,7 +944,7 @@
         "options": [],
         "query": {
           "qryType": 1,
-          "query": "label_values(apache_up,hostname)",
+          "query": "label_values(haproxy_up,hostname)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,
@@ -897,16 +955,15 @@
       },
       {
         "current": {
-          "isNone": true,
           "selected": false,
-          "text": "None",
-          "value": ""
+          "text": "local",
+          "value": "local"
         },
         "datasource": {
           "type": "prometheus",
           "uid": "${datasource}"
         },
-        "definition": "label_values(apache_up{hostname=\"$hostname\"},instance)",
+        "definition": "label_values(haproxy_up{hostname=\"$hostname\"},instance)",
         "hide": 0,
         "includeAll": false,
         "label": "Instance",
@@ -915,7 +972,63 @@
         "options": [],
         "query": {
           "qryType": 1,
-          "query": "label_values(apache_up{hostname=\"$hostname\"},instance)",
+          "query": "label_values(haproxy_up{hostname=\"$hostname\"},instance)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "keep-backend",
+          "value": "keep-backend"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${datasource}"
+        },
+        "definition": "label_values(haproxy_backend_status{hostname=\"$hostname\", instance=\"$instance\"},proxy)",
+        "hide": 0,
+        "includeAll": false,
+        "label": "backend",
+        "multi": false,
+        "name": "proxy",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values(haproxy_backend_status{hostname=\"$hostname\", instance=\"$instance\"},proxy)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "app",
+          "value": "app"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${datasource}"
+        },
+        "definition": "label_values(haproxy_server_status{hostname=\"$hostname\", instance=\"$instance\", proxy=\"$proxy\"},server)",
+        "hide": 0,
+        "includeAll": false,
+        "label": "server",
+        "multi": false,
+        "name": "server",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values(haproxy_server_status{hostname=\"$hostname\", instance=\"$instance\", proxy=\"$proxy\"},server)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,
@@ -927,13 +1040,13 @@
     ]
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "Apache",
-  "uid": "ddi4tygcyonpcf",
-  "version": 2,
+  "title": "HAProxy Servers",
+  "uid": "f6fdd8eb-db52-4326-a9b6-ec8fa59e4bd5",
+  "version": 12,
   "weekStart": ""
 }

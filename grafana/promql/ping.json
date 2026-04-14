@@ -18,8 +18,9 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 5,
+  "id": 264,
   "links": [],
+  "liveNow": false,
   "panels": [
     {
       "datasource": {
@@ -329,15 +330,15 @@
     }
   ],
   "refresh": "",
-  "schemaVersion": 39,
+  "schemaVersion": 38,
   "tags": [],
   "templating": {
     "list": [
       {
         "current": {
           "selected": false,
-          "text": "prometheus",
-          "value": "edhq55gf59dz4b"
+          "text": "None",
+          "value": ""
         },
         "hide": 0,
         "includeAll": false,
@@ -354,7 +355,6 @@
       },
       {
         "current": {
-          "isNone": true,
           "selected": false,
           "text": "None",
           "value": ""
@@ -420,6 +420,6 @@
   "timezone": "browser",
   "title": "Ping",
   "uid": "edi5u7dixshdse",
-  "version": 2,
+  "version": 1,
   "weekStart": ""
 }

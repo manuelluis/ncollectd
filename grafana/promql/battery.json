@@ -410,8 +410,8 @@
       {
         "current": {
           "selected": false,
-          "text": "prometheus",
-          "value": "edhq55gf59dz4b"
+          "text": "None",
+          "value": ""
         },
         "hide": 0,
         "includeAll": false,
